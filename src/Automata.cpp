@@ -1,3 +1,4 @@
+
 #include "Automata.h"
 #include <iostream>
 
@@ -29,38 +30,37 @@ void Automata::off()
         state = OFF;
     }
 }
-void Automata::coin(int _cash)
+void Automata::coin(int money)
 {
     if(getState() == ACCEPT || getState() == WAIT)
     {
         if(getState() == WAIT)
             state = ACCEPT;
-        cash += _cash;
+        cash += money;
     }
 }
 std::string Automata::etMenu()
 {
-    std::string clientsmenu ("Menu\n");
+    std::string fullmenu;
     for(int i = 0; i < 3; i++)
     {
-        clientsmenu += "Beverage number " + std::to_string(i + 1) + " - " + menu[i] + ". Price - " + std::to_string(prices[i]) + "\n";
-
+        fullmenu += std::to_string(i + 1) + ". " + menu[i] + " - " + std::to_string(prices[i]) + "\n";
     }
 
-    return clientsmenu;
+    return fullmenu;
 }
 States Automata::getState()
 {
     return state;
 }
-void Automata::choice(int _choise)
+void Automata::choice(int _choice)
 {
     if(getState() == ACCEPT)
     {
         state = CHECK;
-        if(_choise <= 3 && _choise >= 1 && check(_choise - 1))
+        if(_choice <= 3 && _choice >= 1 && check(_choice - 1))
         {
-            cash -= prices[_choise - 1];
+            cash -= prices[_choice - 1];
             cook();
         }
         else 
@@ -75,10 +75,6 @@ bool Automata::check(int _choice)
             return true;
         else
             return false;
-    }
-    else
-    {
-        return false;
     }
 }
 int Automata::cancel()
@@ -99,7 +95,7 @@ void Automata::cook()
     {
         state = COOK;
         if(cash == 0)
-        {finish();}
+           finish();
     }
 }
 int Automata::finish()
@@ -111,13 +107,4 @@ int Automata::finish()
         cash = 0;
         return temp;
     }
-    else
-    {
-        return 0;
-    }
-}
-Automata::~Automata()
-{
-    delete[] menu;
-    delete[] prices;
 }
