@@ -29,5 +29,4 @@ class Automata
     void choice(int _choice);
     int cancel();
     int finish();
-    ~Automata();
 };
